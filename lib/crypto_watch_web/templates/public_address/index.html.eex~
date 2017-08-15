@@ -1,0 +1,38 @@
+<h2>Listing Public addresses</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>Name</th>
+      <th>Balance</th>
+      <th>Price</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for public_address <- @public_addresses do %>
+    <tr>
+      <td><%= public_address.address %></td>
+      <td><%= public_address.name %></td>
+      <td><%= public_address.balance %></td>
+      <td><%= public_address.price %></td>
+
+      <td class="text-right">
+        <span><%= link "Show", to: public_address_path(@conn, :show, public_address), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Edit", to: public_address_path(@conn, :edit, public_address), class: "btn btn-default btn-xs" %></span>
+        <span><%= link "Delete", to: public_address_path(@conn, :delete, public_address), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %></span>
+      </td>
+    </tr>
+ <% end %>
+   <thead>
+      <tr>
+        <th>Total Price:</th>
+        <th><%= @total_price %> USD</th>
+      </tr>
+    </thead>
+  </tbody>
+</table>
+
+<span><%= link "New Public address", to: public_address_path(@conn, :new) %></span>

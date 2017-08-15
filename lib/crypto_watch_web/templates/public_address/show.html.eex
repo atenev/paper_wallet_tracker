@@ -1,0 +1,18 @@
+<h2>Show Public address</h2>
+
+<ul>
+
+  <li>
+    <strong>Address:</strong>
+    <%= @public_address.address %>
+  </li>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @public_address.name %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: public_address_path(@conn, :edit, @public_address) %></span>
+<span><%= link "Back", to: public_address_path(@conn, :index) %></span>

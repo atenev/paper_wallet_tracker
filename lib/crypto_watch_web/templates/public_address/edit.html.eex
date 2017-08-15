@@ -1,0 +1,5 @@
+<h2>Edit Public address</h2>
+
+<%= render "form.html", Map.put(assigns, :action, public_address_path(@conn, :update, @public_address)) %>
+
+<span><%= link "Back", to: public_address_path(@conn, :index) %></span>
