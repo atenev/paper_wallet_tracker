@@ -5,7 +5,7 @@ defmodule CryptoWatchWeb.PublicAddressController do
   alias CryptoWatch.AddressManager
   alias CryptoWatch.AddressManager.PublicAddress
 
-  @btc_price BlockchainInfo.getBTCPrice("USD")
+  # @btc_price BlockchainInfo.getBTCPrice("USD")
 
 
   def index(conn, _params) do

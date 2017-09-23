@@ -16,8 +16,11 @@ defmodule CryptoWatch.BlockchainInfo do
   # Returns decoded json response from a web api
   defp getResponse(api_address) do
     {:ok, %HTTPoison.Response{body: blockchain_info_responce}} = HTTPoison.get api_address
-    {:ok, %{} = decoded_blockchain_info} = JSON.decode(blockchain_info_responce)
-    decoded_blockchain_info
+    case JSON.decode(blockchain_info_responce) do
+      {:ok, %{} = decoded_blockchain_info} -> decoded_blockchain_info
+      {:error, {:unexpected_token, _}} -> getResponse(api_address)
+    end
+    # decoded_blockchain_info
   end
 
 end

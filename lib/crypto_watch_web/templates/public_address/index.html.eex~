@@ -29,7 +29,7 @@
    <thead>
       <tr>
         <th>Total Price:</th>
-        <th><%= @total_price %> USD</th>
+        <th>$<%= @total_price %></th>
       </tr>
     </thead>
   </tbody>
