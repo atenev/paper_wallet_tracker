@@ -6,9 +6,9 @@ defmodule CryptoWatch.Mixfile do
       app: :crypto_watch,
       version: "0.0.1",
       elixir: "~> 1.4",
-      elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
     ]
@@ -26,7 +26,7 @@ defmodule CryptoWatch.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -43,7 +43,8 @@ defmodule CryptoWatch.Mixfile do
       {:cowboy, "~> 1.0"},
       {:sweet_xml, "~> 0.5.0"},
       {:json, "~> 1.0"},
-      {:httpoison, "~> 0.12"}
+      {:httpoison, "~> 0.12"},
+      {:comeonin, "~> 3.0"}
     ]
   end
 
@@ -57,7 +58,7 @@ defmodule CryptoWatch.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "test": ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

@@ -1,5 +1,5 @@
 defmodule CryptoWatch.InfoSys.Coinbase do
-  import  SweetXml
+  import SweetXml
 
   alias CryptoWatch.InfoSys.Result
 
@@ -10,7 +10,9 @@ defmodule CryptoWatch.InfoSys.Coinbase do
   def fetch(query_str, query_ref, owner, _limit) do
     query_str
     |> fetch_xml()
-    |> xpath(~x"/queryresult/pod[contains(@title, 'Result') or contains(@title, 'Definitions')] /subpod/plaintext/text()")
+    |> xpath(
+      ~x"/queryresult/pod[contains(@title, 'Result') or contains(@title, 'Definitions')] /subpod/plaintext/text()"
+    )
     |> send_results(query_ref, owner)
   end
 
@@ -24,12 +26,16 @@ defmodule CryptoWatch.InfoSys.Coinbase do
   end
 
   defp fetch_xml(query_str) do
-    {:ok, {_, _, body}} = :httpc.request(String.to_char_list("http://api.wolframalpha.com/v2/query" <> 
-                                         "?appid=#{app_id()}" <>
-                                         "&input=#{URI.encode(query_str)}&format=plaintext"))
+    {:ok, {_, _, body}} =
+      :httpc.request(
+        String.to_char_list(
+          "http://api.wolframalpha.com/v2/query" <>
+            "?appid=#{app_id()}" <> "&input=#{URI.encode(query_str)}&format=plaintext"
+        )
+      )
+
     body
   end
+
   defp app_id, do: Application.get_env(:rumbl, :wolfram)[:app_id]
-
 end
-

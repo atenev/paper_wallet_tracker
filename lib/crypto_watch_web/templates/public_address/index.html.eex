@@ -1,3 +1,7 @@
+<%= unless @current_user do %>
+  <h2> Are are not logged in, please login </h2> 
+<% else %>
+  
 <h2>Listing Public addresses</h2>
 
 <table class="table">
@@ -36,3 +40,4 @@
 </table>
 
 <span><%= link "New Public address", to: public_address_path(@conn, :new) %></span>
+<% end %>

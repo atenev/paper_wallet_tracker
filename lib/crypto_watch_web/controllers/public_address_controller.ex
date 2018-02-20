@@ -1,18 +1,18 @@
 defmodule CryptoWatchWeb.PublicAddressController do
   use CryptoWatchWeb, :controller
-  
-  alias CryptoWatch.BlockchainInfo 
+
+  alias CryptoWatch.BlockchainInfo
   alias CryptoWatch.AddressManager
   alias CryptoWatch.AddressManager.PublicAddress
 
   # @btc_price BlockchainInfo.getBTCPrice("USD")
 
-
   def index(conn, _params) do
-    {public_addresses, total_price} = AddressManager.list_public_addresses()
-    |> query_balance 
-    |> query_price
-    |> total_price
+    {public_addresses, total_price} =
+      AddressManager.list_public_addresses()
+      |> query_balance
+      |> query_price
+      |> total_price
 
     render(conn, "index.html", public_addresses: public_addresses, total_price: total_price)
   end
@@ -28,6 +28,7 @@ defmodule CryptoWatchWeb.PublicAddressController do
         conn
         |> put_flash(:info, "Public address created successfully.")
         |> redirect(to: public_address_path(conn, :show, public_address))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -52,6 +53,7 @@ defmodule CryptoWatchWeb.PublicAddressController do
         conn
         |> put_flash(:info, "Public address updated successfully.")
         |> redirect(to: public_address_path(conn, :show, public_address))
+
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", public_address: public_address, changeset: changeset)
     end
@@ -70,26 +72,35 @@ defmodule CryptoWatchWeb.PublicAddressController do
 
   defp query_balance(public_address_list) do
     Enum.map(public_address_list, &update_balance(&1))
-  end 
+  end
 
-  defp update_balance(%CryptoWatch.AddressManager.PublicAddress{address: address} = public_address_struct) do
+  defp update_balance(
+         %CryptoWatch.AddressManager.PublicAddress{address: address} = public_address_struct
+       ) do
     public_address_struct
     |> Map.update!(:balance, fn _ -> BlockchainInfo.getBalance(address) end)
   end
 
   defp query_price(public_address_list) do
-      Enum.map(public_address_list, &update_price(&1,BlockchainInfo.getBTCPrice("USD")))
-
+    Enum.map(public_address_list, &update_price(&1, BlockchainInfo.getBTCPrice("USD")))
   end
 
-  defp update_price(%CryptoWatch.AddressManager.PublicAddress{price: price, balance: balance} = public_address_struct, last_price) do
+  defp update_price(
+         %CryptoWatch.AddressManager.PublicAddress{price: price, balance: balance} =
+           public_address_struct,
+         last_price
+       ) do
     public_address_struct
-    |> Map.update!(:price, fn _ -> last_price*balance end)
+    |> Map.update!(:price, fn _ -> last_price * balance end)
   end
 
   defp total_price(public_address_list) do
-    {public_address_list, Enum.reduce(public_address_list, acc = 0, 
-                                      fn %CryptoWatch.AddressManager.PublicAddress{price: price}, acc ->
-                                      acc + price end)}
+    {public_address_list,
+     Enum.reduce(public_address_list, acc = 0, fn %CryptoWatch.AddressManager.PublicAddress{
+                                                    price: price
+                                                  },
+                                                  acc ->
+       acc + price
+     end)}
   end
 end

@@ -30,7 +30,9 @@ defmodule CryptoWatch.AddressManagerTest do
     end
 
     test "create_public_address/1 with valid data creates a public_address" do
-      assert {:ok, %PublicAddress{} = public_address} = AddressManager.create_public_address(@valid_attrs)
+      assert {:ok, %PublicAddress{} = public_address} =
+               AddressManager.create_public_address(@valid_attrs)
+
       assert public_address.address == "some address"
       assert public_address.name == "some name"
     end
@@ -41,7 +43,10 @@ defmodule CryptoWatch.AddressManagerTest do
 
     test "update_public_address/2 with valid data updates the public_address" do
       public_address = public_address_fixture()
-      assert {:ok, public_address} = AddressManager.update_public_address(public_address, @update_attrs)
+
+      assert {:ok, public_address} =
+               AddressManager.update_public_address(public_address, @update_attrs)
+
       assert %PublicAddress{} = public_address
       assert public_address.address == "some updated address"
       assert public_address.name == "some updated name"
@@ -49,14 +54,20 @@ defmodule CryptoWatch.AddressManagerTest do
 
     test "update_public_address/2 with invalid data returns error changeset" do
       public_address = public_address_fixture()
-      assert {:error, %Ecto.Changeset{}} = AddressManager.update_public_address(public_address, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               AddressManager.update_public_address(public_address, @invalid_attrs)
+
       assert public_address == AddressManager.get_public_address!(public_address.id)
     end
 
     test "delete_public_address/1 deletes the public_address" do
       public_address = public_address_fixture()
       assert {:ok, %PublicAddress{}} = AddressManager.delete_public_address(public_address)
-      assert_raise Ecto.NoResultsError, fn -> AddressManager.get_public_address!(public_address.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        AddressManager.get_public_address!(public_address.id)
+      end
     end
 
     test "change_public_address/1 returns a public_address changeset" do

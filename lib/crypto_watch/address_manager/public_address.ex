@@ -3,12 +3,11 @@ defmodule CryptoWatch.AddressManager.PublicAddress do
   import Ecto.Changeset
   alias CryptoWatch.AddressManager.PublicAddress
 
-
   schema "public_addresses" do
-    field :address, :string
-    field :name, :string
-    field :balance, :integer, virtual: true
-    field :price, :integer, virtual: true
+    field(:address, :string)
+    field(:name, :string)
+    field(:balance, :integer, virtual: true)
+    field(:price, :integer, virtual: true)
 
     timestamps()
   end
